@@ -7,4 +7,6 @@ INSERT into unit_of_measure (description) VALUES ('Teaspoon');
 INSERT into unit_of_measure (description) VALUES ('Tablespoon');
 INSERT into unit_of_measure (description) VALUES ('cup');
 INSERT into unit_of_measure (description) VALUES ('pinch');
+INSERT into unit_of_measure (description) VALUES ('each');
+INSERT into unit_of_measure (description) VALUES ('dash');
 INSERT into unit_of_measure (description) VALUES ('as required');
