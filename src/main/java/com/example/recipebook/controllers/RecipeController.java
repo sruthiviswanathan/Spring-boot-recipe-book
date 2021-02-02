@@ -18,7 +18,7 @@ public class RecipeController {
     }
 
     @RequestMapping("/list")
-    private String getRecipes(Model model) {
+    public String getRecipes(Model model) {
         log.debug("Getting recipes");
         model.addAttribute("recipes", recipeService.getRecipes());
         return "recipes/list";
