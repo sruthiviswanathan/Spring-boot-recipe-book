@@ -2,6 +2,7 @@ package com.example.recipebook.converters;
 
 import com.example.recipebook.commands.IngredientsCommand;
 import com.example.recipebook.domain.Ingredient;
+import com.example.recipebook.domain.Recipe;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
@@ -27,6 +28,14 @@ public class IngredientCommandToIngredient implements Converter<IngredientsComma
         ingredient.setDescription(ingredientsCommand.getDescription());
         ingredient.setId(ingredientsCommand.getId());
         ingredient.setAmount(ingredientsCommand.getAmount());
+
+        if(ingredientsCommand.getRecipeId() != null){
+            Recipe recipe = new Recipe();
+            recipe.setId(ingredientsCommand.getRecipeId());
+            ingredient.setRecipe(recipe);
+            recipe.addIngredient(ingredient);
+        }
+
         ingredient.setUom(uomConverter.convert(ingredientsCommand.getUom()));
         return ingredient;
     }
