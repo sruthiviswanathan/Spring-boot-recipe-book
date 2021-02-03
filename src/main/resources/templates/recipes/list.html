@@ -32,7 +32,7 @@
                                     <td th:text="${recipe.description}"></td>
                                     <td><a th:href="@{'/recipes/show/' + ${recipe.id}}">View</a></td>
                                     <td><a th:href="@{'/recipes/update/' + ${recipe.id}}">Update</a></td>
-                                    <td><a href="#">Delete</a></td>
+                                    <td><a th:href="@{'/recipes/delete/' + ${recipe.id}}">Delete</a></td>
                                 </tr>
                                 </tbody>
                             </table>

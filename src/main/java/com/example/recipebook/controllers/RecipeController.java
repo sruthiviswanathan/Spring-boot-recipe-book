@@ -49,7 +49,6 @@ public class RecipeController {
     @RequestMapping("/update/{id}")
     public String updateExistingRecipeForm(@PathVariable String id, Model model) {
         Recipe recipe = recipeService.getRecipeById(Long.valueOf(id));
-        System.out.println("================>" + recipe.getId());
         RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
         model.addAttribute("recipe", recipeCommand);
         return "recipes/create";
@@ -61,6 +60,14 @@ public class RecipeController {
         log.debug("Create a new Recipe");
         RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
         return "redirect:/recipes/show/" + savedRecipe.getId();
+    }
+
+    @GetMapping
+    @RequestMapping("/delete/{id}")
+    public String deleteRecipe(@PathVariable String id) {
+        log.debug("Recipe Id to be deleted: " + id);
+        recipeService.deleteRecipeById(Long.valueOf(id));
+        return "redirect:/recipes/list";
     }
 
 }
