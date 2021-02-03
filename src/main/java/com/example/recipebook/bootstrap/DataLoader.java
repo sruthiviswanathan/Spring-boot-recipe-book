@@ -85,7 +85,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Recipe guacRecipe = new Recipe();
         guacRecipe.setDescription("Perfect Guacamole");
         guacRecipe.setPrepTime(10);
-        guacRecipe.setCookTime(0);
+        guacRecipe.setCookTime(20);
         guacRecipe.setDifficulty(Difficulty.EASY);
         guacRecipe.setDirections("1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon" +
                 "\n" +
@@ -117,6 +117,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         guacRecipe.getCategories().add(americanCategory);
         guacRecipe.getCategories().add(italianCategory);
+        guacRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvoun5ws");
+        guacRecipe.setSource("https://www.simplyrecipes.com/wp-content/uploads/2018/07/Guacamole-LEAD-2.jpg");
+        guacRecipe.setServings(2);
 
         //add to return list
         recipes.add(guacRecipe);
@@ -171,7 +174,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         tacosRecipe.getCategories().add(americanCategory);
         tacosRecipe.getCategories().add(italianCategory);
-
+        tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/#ixzz4jvtrAnNm");
+        tacosRecipe.setSource("https://www.simplyrecipes.com/wp-content/uploads/2017/05/2017-05-29-GrilledChickenTacos-3-768x1075.jpg");
+        tacosRecipe.setServings(4);
         recipes.add(tacosRecipe);
         return recipes;
     }
