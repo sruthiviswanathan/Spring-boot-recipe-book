@@ -81,10 +81,10 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-11 ">
-                                    <h1 class="panel-title">Ingredients</h1>
+                                    <h1 class="card-title">Ingredients</h1>
                                 </div>
-                                <div class="col-md-1">
-                                    <a class="btn btn-default" href="#" role="button">Edit</a>
+                                <div th:if="${recipe.id}" class="col-md-1">
+                                    <a class="btn btn-primary btn-sm" th:href="@{'/recipe/' + ${recipe.id}} + '/ingredients'" role="button">Edit</a>
                                 </div>
                             </div>
                         </div>
