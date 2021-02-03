@@ -1,5 +1,7 @@
 package com.example.recipebook.controllers;
 
+import com.example.recipebook.converters.RecipeCommandToRecipe;
+import com.example.recipebook.converters.RecipeToRecipeCommand;
 import com.example.recipebook.domain.Recipe;
 import com.example.recipebook.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,13 +32,19 @@ class RecipeControllerTest {
     RecipeService recipeService;
 
     @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @Mock
     Model model;
 
     @BeforeEach
     void setUp() {
         // Adding mockito annotations
         MockitoAnnotations.initMocks(this);
-        recipeController = new RecipeController(recipeService);
+        recipeController = new RecipeController(recipeService, recipeToRecipeCommand, recipeCommandToRecipe);
     }
 
     // testing mock mvc

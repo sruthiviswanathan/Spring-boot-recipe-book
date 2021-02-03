@@ -1,21 +1,28 @@
 package com.example.recipebook.controllers;
 
 
+import com.example.recipebook.commands.RecipeCommand;
+import com.example.recipebook.converters.RecipeCommandToRecipe;
+import com.example.recipebook.converters.RecipeToRecipeCommand;
+import com.example.recipebook.domain.Recipe;
 import com.example.recipebook.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
 @RequestMapping("recipes")
 public class RecipeController {
     private final RecipeService recipeService;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
 
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, RecipeToRecipeCommand recipeToRecipeCommand, RecipeCommandToRecipe recipeCommandToRecipe) {
         this.recipeService = recipeService;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
     }
 
     @RequestMapping("/list")
@@ -31,4 +38,29 @@ public class RecipeController {
         model.addAttribute("recipe", recipeService.getRecipeById(Long.valueOf(id)));
         return "recipes/show";
     }
+
+    @RequestMapping("/new")
+    public String renderNewRecipeForm(Model model) {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        model.addAttribute("recipe", recipeCommand);
+        return "recipes/create";
+    }
+
+    @RequestMapping("/update/{id}")
+    public String updateExistingRecipeForm(@PathVariable String id, Model model) {
+        Recipe recipe = recipeService.getRecipeById(Long.valueOf(id));
+        System.out.println("================>" + recipe.getId());
+        RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
+        model.addAttribute("recipe", recipeCommand);
+        return "recipes/create";
+    }
+
+    @PostMapping
+    @RequestMapping("/add")
+    public String addOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+        log.debug("Create a new Recipe");
+        RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
+        return "redirect:/recipes/show/" + savedRecipe.getId();
+    }
+
 }
