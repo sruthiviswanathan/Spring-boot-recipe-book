@@ -13,7 +13,7 @@
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-header">
-                        <h1>404 Not found</h1>
+                        <h1 th:text="${exceptionName}">404 Not found</h1>
                     </div>
                     <div class="card-body">
                         <p th:text="${error}"></p>
