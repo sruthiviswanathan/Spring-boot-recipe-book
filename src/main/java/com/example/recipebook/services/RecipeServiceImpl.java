@@ -40,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe getRecipeById(Long id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
         if (!recipe.isPresent()) {
-            throw new NotFoundException("Recipe Not found");
+            throw new NotFoundException("Recipe Not found. For ID value: " + id.toString());
         }
         return recipe.get();
     }
