@@ -26,6 +26,6 @@ class IndexControllerTest {
     @Test
     void getIndexPage() {
        String page = indexController.getIndexPage();
-       assertEquals(page , "index");
+       assertEquals(page , "redirect:/recipes/list");
     }
 }

@@ -3,6 +3,7 @@ package com.example.recipebook.services;
 import com.example.recipebook.converters.RecipeCommandToRecipe;
 import com.example.recipebook.converters.RecipeToRecipeCommand;
 import com.example.recipebook.domain.Recipe;
+import com.example.recipebook.exceptions.NotFoundException;
 import com.example.recipebook.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RecipeServiceImplTest {
@@ -50,7 +50,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeByIdTest() {
+    void getRecipeByIdTest() throws Exception{
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -58,5 +58,13 @@ class RecipeServiceImplTest {
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         Recipe recipeReturned = recipeService.getRecipeById(1L);
         assertNotNull(recipeReturned);
+    }
+
+    @Test
+    void getRecipeByIdTestNotFound() throws Exception {
+        when(recipeRepository.findById(anyLong())).thenThrow(NotFoundException.class);
+        assertThrows(NotFoundException.class, () -> {
+            Recipe recipeReturned = recipeService.getRecipeById(1L);
+        });
     }
 }

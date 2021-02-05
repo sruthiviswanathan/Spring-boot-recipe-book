@@ -3,6 +3,7 @@ package com.example.recipebook.controllers;
 import com.example.recipebook.converters.RecipeCommandToRecipe;
 import com.example.recipebook.converters.RecipeToRecipeCommand;
 import com.example.recipebook.domain.Recipe;
+import com.example.recipebook.exceptions.NotFoundException;
 import com.example.recipebook.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,5 +92,14 @@ class RecipeControllerTest {
         mockMvc.perform(get("/recipes/show/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipes/show"));
+    }
+
+    @Test
+    void getRecipeByIdNotFound() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        when(recipeService.getRecipeById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipes/show/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404Error"));
     }
 }
