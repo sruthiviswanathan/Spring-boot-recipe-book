@@ -11,8 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import javax.xml.bind.ValidationException;
 
 @Slf4j
 @Controller
@@ -59,10 +63,18 @@ public class RecipeController {
 
     @PostMapping
     @RequestMapping("/add")
-    public String addOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+    public String addOrUpdateRecipe(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand, BindingResult bindingResult) {
         log.debug("Create a new Recipe");
-        RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
-        return "redirect:/recipes/show/" + savedRecipe.getId();
+
+        if(bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.error(objectError.toString());
+//                throw new ValidationException(objectError.toString());
+            });
+            return "recipes/create";
+        }
+            RecipeCommand savedRecipe = recipeService.saveRecipeCommand(recipeCommand);
+            return "redirect:/recipes/show/" + savedRecipe.getId();
     }
 
     @GetMapping
