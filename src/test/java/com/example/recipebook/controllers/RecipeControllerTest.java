@@ -96,7 +96,7 @@ class RecipeControllerTest {
 
     @Test
     void getRecipeByIdNotFound() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).setControllerAdvice(new ControllerExceptionHandler()).build();
         when(recipeService.getRecipeById(anyLong())).thenThrow(NotFoundException.class);
         mockMvc.perform(get("/recipes/show/1"))
                 .andExpect(status().isNotFound())
