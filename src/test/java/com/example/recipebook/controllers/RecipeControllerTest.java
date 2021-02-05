@@ -105,7 +105,9 @@ class RecipeControllerTest {
 
     @Test
     void getRecipeByIdNumberFormatException() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
         when(recipeService.getRecipeById(anyLong())).thenThrow(NumberFormatException.class);
         mockMvc.perform(get("/recipes/show/asdf"))
                 .andExpect(status().isBadRequest())

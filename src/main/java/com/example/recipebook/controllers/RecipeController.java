@@ -73,26 +73,4 @@ public class RecipeController {
         return "redirect:/recipes/list";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {
-        log.error("Exception Occurred: " + exception.getMessage());
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("error");
-        mav.addObject("exceptionName", "404 Not Found");
-        mav.addObject("error", exception.getMessage());
-        return mav;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleNumberFormatException(Exception exception) {
-        log.error("Exception Occurred: " + exception.getMessage());
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("error");
-        mav.addObject("exceptionName", "400 Bad Request");
-        mav.addObject("error", "NumberFormatException " + exception.getMessage() + ". Id should not be of type string");
-        return mav;
-    }
-
 }
